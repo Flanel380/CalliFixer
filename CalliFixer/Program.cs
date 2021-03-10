@@ -1,5 +1,7 @@
 ﻿using dnlib.DotNet;
 using dnlib.DotNet.Emit;
+using dnlib.DotNet.MD;
+using dnlib.DotNet.Writer;
 using System;
 using System.Linq;
 
@@ -57,7 +59,14 @@ namespace Calli_To_Calls
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Fixed " + callsfixed + " calls");
             Console.WriteLine("Fix finished!Module writed in " + filepath.Split('.')[0] + "-callifixed.exe");
-            module.Write(filepath.Split('.')[0] + "-callifixed.exe");
+            var ModuleWriterOptions = new ModuleWriterOptions(module);
+            ModuleWriterOptions.MetadataOptions.Flags = MetadataFlags.KeepOldMaxStack;
+            ModuleWriterOptions.Logger = DummyLogger.NoThrowInstance;
+            ModuleWriterOptions.MetadataOptions.Flags = MetadataFlags.PreserveAll;
+            ModuleWriterOptions.Cor20HeaderOptions.Flags = ComImageFlags.ILOnly;
+            ModuleWriterOptions.MetadataOptions.PreserveHeapOrder(module, true);
+
+            module.Write(filepath.Split('.')[0] + "-callifixed.exe", ModuleWriterOptions);
             Console.ReadLine();
         }
     }
