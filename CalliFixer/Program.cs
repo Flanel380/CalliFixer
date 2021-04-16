@@ -25,9 +25,9 @@ namespace Calli_To_Calls
                 return;
             }
             int callsfixed = 0;
-            Console.Title = "Calli fixer by NCP";
+            Console.Title = "Calli fixer by ННчик";
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Calli fixer by NCP");
+            Console.WriteLine("Calli fixer by ННчик");
             foreach (var type in module.Types.ToArray())
             {
                 foreach (var method in type.Methods.ToArray())
